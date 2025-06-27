@@ -77,7 +77,6 @@ class HelpSystem(commands.Cog):
     async def ajuda(self, ctx):
         """Comando de ajuda para categorias específicas"""
         if ctx.invoked_subcommand is None:
-            # Se alguém usar apenas !ajuda sem subcomando, mostra mensagem orientativa
             embed = discord.Embed(
                 title="❓ Como usar a ajuda",
                 description="Use `!cmds` para ver o menu principal ou `!ajuda [categoria]` para uma categoria específica",
@@ -101,25 +100,14 @@ class HelpSystem(commands.Cog):
         )
         
         embed.add_field(
-            name="📝 Logs Automáticos Monitorados:",
-            value="• **Entrada de membros** - Quando alguém entra no servidor\n" +
-                  "• **Saída de membros** - Quando alguém sai do servidor\n" +
-                  "• **Mensagens deletadas** - Registro de mensagens apagadas\n" +
-                  "• **Mensagens editadas** - Antes/depois das edições\n" +
-                  "• **Usuários banidos** - Quando alguém é banido\n" +
-                  "• **Mudanças de nickname** - Alterações no apelido",
+            name="📝 Logs Automáticos:",
+            value="• **Entrada/saída de membros**\n• **Mensagens deletadas e editadas**\n• **Usuários banidos**\n• **Mudanças de nickname**",
             inline=False
         )
         
         embed.add_field(
-            name="ℹ️ Informações Exibidas:",
-            value="• Nome do usuário e ID\n• Avatar/foto de perfil\n• Canal onde ocorreu a ação\n• Conteúdo das mensagens (quando aplicável)\n• Horário da ação",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="🎯 Exemplo de Uso:",
-            value="`!setlogchannel #logs-servidor`",
+            name="ℹ️ Informações Registradas:",
+            value="• Nome do usuário, ID e avatar\n• Canal onde ocorreu a ação\n• Conteúdo das mensagens\n• Horário da ação",
             inline=False
         )
         
@@ -137,35 +125,25 @@ class HelpSystem(commands.Cog):
         
         embed.add_field(
             name="💕 Ações Carinhosas",
-            value="**`!abracar @usuário`** (aliases: `!hug`, `!abraço`)\nAbraça outro usuário com carinho\n\n" +
-                  "**`!beijar @usuário`** (aliases: `!kiss`, `!beijo`)\nBeija outro usuário com afeto\n\n" +
-                  "**`!cafune @usuário`** (aliases: `!headpat`, `!pat`)\nFaz cafuné relaxante no usuário",
+            value="**`!abracar @usuário`** - Abraça outro usuário\n**`!beijar @usuário`** - Beija outro usuário\n**`!cafune @usuário`** - Faz cafuné relaxante",
             inline=False
         )
         
         embed.add_field(
             name="🤝 Ações Sociais",
-            value="**`!tocaaqui @usuário`** (aliases: `!highfive`, `!hifive`)\nCumprimenta com um 'toca aqui'\n\n" +
-                  "**`!dancar @usuário`** (alias: `!dance`)\nDança junto com outro usuário",
+            value="**`!tocaaqui @usuário`** - Cumprimento 'toca aqui'\n**`!dancar @usuário`** - Dança junto com outro usuário",
             inline=False
         )
         
         embed.add_field(
             name="⚔️ Ações de Combate",
-            value="**`!bofetada @usuário`** (aliases: `!slap`, `!tapa`)\nDá uma bofetada no usuário\n\n" +
-                  "**`!atacar @usuário`** (alias: `!attack`)\nAtaca causando dano aleatório (1-100 pontos)",
+            value="**`!bofetada @usuário`** - Dá uma bofetada\n**`!atacar @usuário`** - Ataca causando dano aleatório (1-100)",
             inline=False
         )
         
         embed.add_field(
-            name="📋 Comandos de Ajuda",
-            value="**`!roleplay`** ou **`!rp`** - Lista resumida de comandos\n**`!helproleplay`** - Ajuda completa e detalhada",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="💡 Dicas Importantes:",
-            value="• Você pode usar comandos em si mesmo para ações solo\n• Todos os comandos precisam mencionar um usuário\n• As interações são apenas por diversão, sem efeitos reais",
+            name="💡 Dicas:",
+            value="• Você pode usar comandos em si mesmo\n• Todos os comandos precisam mencionar um usuário\n• As interações são apenas por diversão",
             inline=False
         )
         
@@ -183,39 +161,25 @@ class HelpSystem(commands.Cog):
         
         embed.add_field(
             name="💳 Comandos Básicos",
-            value="**`!saldo`**\nMostra seu saldo atual de moedas\n\n" +
-                  "**`!diario`**\nColeta recompensa diária (100-300 moedas)\n\n" +
-                  "**`!trabalhar`**\nTrabalha para ganhar moedas (50-200)",
+            value="**`!saldo`** - Mostra seu saldo atual\n**`!diario`** - Recompensa diária (100-300 moedas)\n**`!trabalhar`** - Trabalha para ganhar moedas (50-200)",
             inline=False
         )
         
         embed.add_field(
             name="💸 Transferências",
-            value="**`!transferir @usuário [quantia]`**\nTransfere moedas para outro usuário\n*Obs: Não pode transferir para si mesmo*",
+            value="**`!transferir @usuário [quantia]`** - Transfere moedas para outro usuário",
             inline=False
         )
         
         embed.add_field(
-            name="🏆 Rankings",
-            value="**`!rankmoney`**\nMostra o ranking dos 10 usuários mais ricos do servidor",
+            name="🏆 Rankings & Admin",
+            value="**`!rankmoney`** - Ranking dos 10 mais ricos\n**`!darcoins @usuário [quantia]`** - Admin adiciona moedas",
             inline=False
         )
         
         embed.add_field(
-            name="👑 Comandos de Admin",
-            value="**`!darcoins @usuário [quantia]`**\nAdiciona moedas para um usuário\n*Requer: Permissão de Administrador*",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="📊 Sistema de Dados:",
-            value="• **Saldo** - Quantidade de moedas atual\n• **Trabalhos** - Contador de vezes que trabalhou\n• Dados salvos automaticamente em JSON",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="🎯 Exemplos de Uso:",
-            value="`!transferir @João 500` - Transfere 500 moedas para João\n`!darcoins @Maria 1000` - Admin dá 1000 moedas para Maria",
+            name="🎯 Exemplo:",
+            value="`!transferir @João 500` - Transfere 500 moedas para João",
             inline=False
         )
         
@@ -232,40 +196,26 @@ class HelpSystem(commands.Cog):
         )
         
         embed.add_field(
-            name="🔨 Punições Permanentes",
-            value="**`!banir @usuário [motivo]`**\nBane um usuário do servidor\n*Requer: Permissão de Banir Membros*\n\n" +
-                  "**`!expulsar @usuário [motivo]`**\nExpulsa um usuário do servidor\n*Requer: Permissão de Expulsar Membros*",
+            name="🔨 Punições",
+            value="**`!banir @usuário [motivo]`** - Bane um usuário\n**`!expulsar @usuário [motivo]`** - Expulsa um usuário",
             inline=False
         )
         
         embed.add_field(
             name="🔇 Sistema de Mute",
-            value="**`!mutar @usuário [motivo]`**\nImpede o usuário de enviar mensagens\n*Requer: Permissão de Gerenciar Cargos*\n\n" +
-                  "**`!desmutar @usuário`**\nRemove o mute do usuário\n*Requer: Permissão de Gerenciar Cargos*",
+            value="**`!mutar @usuário [motivo]`** - Impede o usuário de falar\n**`!desmutar @usuário`** - Remove o mute do usuário",
             inline=False
         )
         
         embed.add_field(
-            name="🧹 Limpeza de Chat",
-            value="**`!limpar [quantidade]`**\nApaga mensagens do canal (padrão: 10)\n*Requer: Permissão de Gerenciar Mensagens*\n*Máximo recomendado: 100 mensagens*",
+            name="🧹 Limpeza",
+            value="**`!limpar [quantidade]`** - Apaga mensagens do canal (padrão: 10)",
             inline=False
         )
         
         embed.add_field(
             name="⚙️ Funcionamento do Mute:",
-            value="• Cria automaticamente o cargo 'Mutado' se não existir\n• Remove permissão de enviar mensagens em todos os canais\n• Aplica as restrições a canais novos automaticamente",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="📝 Sobre os Motivos:",
-            value="• Se não especificar motivo, será usado 'Sem motivo'\n• Motivos são registrados nos logs do Discord\n• Use motivos descritivos para melhor organização",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="🎯 Exemplos de Uso:",
-            value="`!banir @usuário spam excessivo`\n`!limpar 50`\n`!mutar @usuário comportamento inadequado`",
+            value="• Cria automaticamente o cargo 'Mutado'\n• Remove permissão de enviar mensagens\n• Aplica restrições a canais novos automaticamente",
             inline=False
         )
         
@@ -282,38 +232,26 @@ class HelpSystem(commands.Cog):
         )
         
         embed.add_field(
-            name="🎲 Gerenciar Sorteios",
-            value="**`!comecarsorteio [prêmio]`**\nInicia um novo sorteio com o prêmio especificado\n\n" +
-                  "**`!encerrarsorteio`**\nEncerra o sorteio atual (não seleciona vencedor)\n\n" +
-                  "**`!cancelarsorteio`**\nEncerra o sorteio atual (não seleciona vencedor)\n\n" +
-                  "**`!vencedor`**\nSeleciona aleatoriamente um vencedor do sorteio ativo",
+            name="🎲 Comandos",
+            value="**`!comecarsorteio [prêmio]`** - Inicia um novo sorteio\n**`!encerrarsorteio`** - Encerra o sorteio atual\n**`!vencedor`** - Seleciona vencedor aleatório",
             inline=False
         )
         
         embed.add_field(
             name="📋 Como Funciona:",
-            value="1. **Início**: Use `!comecarsorteio` com descrição do prêmio\n" +
-                  "2. **Participação**: Usuários reagem com 🎉 para participar\n" +
-                  "3. **Seleção**: Use `!vencedor` para escolher ganhador aleatório\n" +
-                  "4. **Resultado**: Bot anuncia o vencedor automaticamente",
+            value="1. Use `!comecarsorteio` com descrição do prêmio\n2. Usuários reagem com 🎉 para participar\n3. Use `!vencedor` para escolher ganhador\n4. Bot anuncia o resultado",
             inline=False
         )
         
         embed.add_field(
-            name="⚠️ Regras e Limitações:",
-            value="• Apenas um sorteio por canal simultaneamente\n• Bots não podem participar dos sorteios\n• Precisa ter pelo menos 1 participante para sortear\n• Reactions são removidas ao encerrar",
+            name="⚠️ Regras:",
+            value="• Apenas um sorteio por canal\n• Bots não podem participar\n• Precisa ter pelo menos 1 participante",
             inline=False
         )
         
         embed.add_field(
-            name="🎯 Exemplos de Uso:",
-            value="`!comecarsorteio Nitro Classic por 1 mês`\n`!comecarsorteio 1000 moedas do servidor`\n`!comecarsorteio Cargo VIP`",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="💡 Dicas:",
-            value="• Seja claro na descrição do prêmio\n• Aguarde participantes antes de sortear\n• Use `!encerrarsorteio` se precisar cancelar\n• Mantenha os prêmios justos e atraentes",
+            name="🎯 Exemplo:",
+            value="`!comecarsorteio Nitro Classic por 1 mês`",
             inline=False
         )
         
@@ -330,38 +268,20 @@ class HelpSystem(commands.Cog):
         )
         
         embed.add_field(
-            name="🏓 Performance",
-            value="**`!ping`**\nMostra a latência atual do bot em milissegundos\nÚtil para verificar se o bot está respondendo bem",
+            name="🏓 Performance & Info",
+            value="**`!ping`** - Mostra latência do bot\n**`!botinfo`** - Informações detalhadas do bot\n**`!uptime`** - Tempo de atividade do bot",
             inline=False
         )
         
         embed.add_field(
-            name="🤖 Informações do Bot",
-            value="**`!botinfo`**\nExibe informações detalhadas sobre o bot:\n• Nome e ID do bot\n• Número de servidores conectados\n• Quantidade de usuários alcançados\n• Versão da biblioteca discord.py",
+            name="📊 Informações Exibidas:",
+            value="• Nome e ID do bot\n• Número de servidores conectados\n• Quantidade de usuários alcançados\n• Versão da biblioteca discord.py\n• Tempo online formatado",
             inline=False
         )
         
         embed.add_field(
-            name="🕒 Tempo de Atividade",
-            value="**`!uptime`**\nMostra há quanto tempo o bot está online\nFormato: dias, horas, minutos e segundos",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="📊 Status Automático:",
-            value="• O bot alterna status a cada 30 segundos\n• Status incluem: 'Use !cmds', 'Unibot gratuito!', 'Prefixo: !'\n• Ajuda usuários a descobrirem comandos básicos",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="💻 Informações Técnicas:",
-            value="• Plataforma: " + "Linux/Windows/Mac" + "\n• RAM: Monitoramento via psutil\n• Versão Python: Detectada automaticamente\n• Biblioteca: discord.py 2.5.2",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="🎯 Exemplos de Resposta:",
-            value="**Ping**: `🏓 Pong! Latência: 45ms`\n**Uptime**: `🕒 Uptime: 2:14:35`\n**Info**: Embed com estatísticas completas",
+            name="💻 Status Automático:",
+            value="O bot alterna status a cada 30 segundos incluindo 'Use !cmds', 'Unibot gratuito!' e 'Prefixo: !'",
             inline=False
         )
         
@@ -378,40 +298,26 @@ class HelpSystem(commands.Cog):
         )
         
         embed.add_field(
-            name="⚙️ Configuração de Canais",
-            value="**`!setentrada #canal`**\nDefine o canal para mensagens de boas-vindas\n*Requer: Permissão de Administrador*\n\n" +
-                  "**`!setsaida #canal`**\nDefine o canal para mensagens de despedida\n*Requer: Permissão de Administrador*",
+            name="⚙️ Configuração",
+            value="**`!setentrada #canal`** - Define canal para boas-vindas\n**`!setsaida #canal`** - Define canal para despedidas\n*Requer: Permissão de Administrador*",
             inline=False
         )
         
         embed.add_field(
             name="📝 Mensagens Automáticas:",
-            value="**Entrada de Membro:**\n`🎉 Olá @usuário, bem-vindo ao servidor! Não se esqueça de ler as regras e se divertir bastante!`\n\n" +
-                  "**Saída de Membro:**\n`👋 O usuário [nome] saiu do servidor. Até a próxima!`",
+            value="**Entrada**: `🎉 Olá @usuário, bem-vindo ao servidor!`\n**Saída**: `👋 O usuário [nome] saiu do servidor.`",
             inline=False
         )
         
         embed.add_field(
-            name="🔧 Como Funciona:",
-            value="• **Configuração**: Admin define canais usando os comandos\n• **Automático**: Bot detecta entrada/saída de membros\n• **Envio**: Mensagens são enviadas nos canais configurados\n• **Segurança**: Configurações salvas em arquivo JSON",
+            name="🔧 Funcionamento:",
+            value="• Admin define canais usando os comandos\n• Bot detecta entrada/saída automaticamente\n• Configurações salvas em arquivo JSON\n• Configurações individuais por servidor",
             inline=False
         )
         
         embed.add_field(
-            name="💾 Armazenamento:",
-            value="• Configurações salvas em `data/welcome_config.json`\n• Backup automático das configurações\n• Diretório criado automaticamente se não existir\n• Configurações individuais por servidor",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="🎯 Exemplos de Configuração:",
-            value="`!setentrada #boas-vindas`\n`!setsaida #despedidas`\n`!setentrada #geral` (usar mesmo canal para ambos)",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="⚠️ Troubleshooting:",
-            value="• Verifique se o bot tem permissão no canal\n• Confirme se o canal ainda existe\n• Bot precisa de permissão para enviar mensagens\n• Configurações são por servidor (não globais)",
+            name="🎯 Exemplo:",
+            value="`!setentrada #boas-vindas`\n`!setsaida #despedidas`",
             inline=False
         )
         
@@ -428,45 +334,32 @@ class HelpSystem(commands.Cog):
         )
         
         embed.add_field(
-            name="📊 Comandos de Consulta",
-            value="**`!xp [@usuário]`**\nMostra XP e nível atual (seu ou de outro usuário)\nInclui barra de progresso visual\n\n" +
-                  "**`!topxp`**\nRanking dos 10 usuários com maior nível/XP do servidor",
+            name="📊 Comandos",
+            value="**`!xp [@usuário]`** - Mostra XP e nível atual com barra de progresso\n**`!topxp`** - Ranking dos 10 usuários com maior nível/XP",
             inline=False
         )
         
         embed.add_field(
             name="⚡ Como Ganhar XP:",
-            value="• **Mensagens**: Ganhe 10-20 XP por mensagem enviada\n• **Automático**: XP é dado automaticamente ao falar\n• **Aleatório**: Quantidade varia para manter dinamismo\n• **Sem Spam**: Bots não ganham XP",
+            value="• **Mensagens**: 10-20 XP por mensagem enviada\n• **Automático**: XP dado automaticamente ao falar\n• **Aleatório**: Quantidade varia para manter dinamismo\n• **Sem Spam**: Bots não ganham XP",
             inline=False
         )
         
         embed.add_field(
             name="🎚️ Sistema de Níveis:",
-            value="• **Fórmula**: XP necessário = 5×(nível²) + 50×nível + 100\n• **Exemplo**: Nível 1→2 = 155 XP, Nível 2→3 = 220 XP\n• **Progressão**: Cada nível fica mais difícil de alcançar\n• **Anúncio**: Bot parabeniza quando você sobe de nível",
+            value="• **Fórmula**: XP necessário = 5×(nível²) + 50×nível + 100\n• **Progressão**: Cada nível fica mais difícil\n• **Anúncio**: Bot parabeniza quando você sobe de nível",
             inline=False
         )
         
         embed.add_field(
             name="📈 Barra de Progresso:",
-            value="**Formato**: `[████████████--------] (1250/1500)`\n• **Cheia**: █ (XP atual)\n• **Vazia**: - (XP restante)\n• **Total**: 20 caracteres de largura\n• **Números**: XP atual / XP máximo do nível",
+            value="**Formato**: `[████████████--------] (1250/1500)`\n• 20 caracteres de largura\n• Mostra XP atual / XP máximo do nível",
             inline=False
         )
         
         embed.add_field(
-            name="🏆 Sistema de Ranking:",
-            value="• **Ordenação**: Por nível primeiro, depois por XP\n• **Top 10**: Mostra os usuários mais ativos\n• **Atualização**: Ranking atualizado em tempo real\n• **Global**: Considera todos os usuários do servidor",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="💾 Dados Salvos:",
-            value="• **XP atual**: Experiência acumulada no nível\n• **Nível**: Posição atual no sistema\n• **Arquivo**: `data/xp.json` (backup automático)\n• **Persistência**: Dados mantidos entre reinicializações",
-            inline=False
-        )
-        
-        embed.add_field(
-            name="🎯 Exemplos de Resposta:",
-            value="**XP**: `📊 @Usuário - Nível: 5`\n`[████████--------] (420/650)`\n**Level Up**: `🎉 @Usuário subiu para o nível 6!`",
+            name="🏆 Ranking:",
+            value="• Ordenação por nível primeiro, depois por XP\n• Top 10 usuários mais ativos\n• Atualizado em tempo real\n• Considera todos os usuários do servidor",
             inline=False
         )
         
@@ -477,61 +370,42 @@ class HelpSystem(commands.Cog):
     async def diversao(self, ctx):
         """Ajuda do sistema de diversão"""
         embed = discord.Embed(
-            title="🎮 Sistema de Diversão - Ajuda | Fun System - Help",
-            description="Comandos bilíngues para entretenimento e jogos | Bilingual commands for entertainment and games",
+            title="🎮 Sistema de Diversão - Ajuda",
+            description="Comandos bilíngues para entretenimento e jogos interativos",
             color=discord.Color.from_rgb(255, 105, 180)
         )
         
         embed.add_field(
-            name="⚙️ Configuração de Idioma | Language Settings",
-            value="**`!setlang pt`** - Define idioma para português\n**`!setlang en`** - Set language to English\n*Afeta todas as respostas do bot | Affects all bot responses*",
+            name="🎯 Jogos Interativos",
+            value="**`!verdade`** / **`!truth`** - Perguntas para verdade ou desafio\n**`!desafio`** / **`!dare`** - Desafios divertidos para o jogo\n**`!8ball [pergunta]`** / **`!bola8 [pergunta]`** - Bola mágica 8",
             inline=False
         )
         
         embed.add_field(
-            name="🎲 Jogos de Sorte | Luck Games",
-            value="**`!dado [lados]`** / **`!dice [sides]`**\nRola dado personalizado | Roll custom dice (padrão/default: 6)\n\n" +
-                  "**`!moeda`** / **`!coin`**\nCara ou coroa | Heads or tails\n\n" +
-                  "**`!rps [pedra/papel/tesoura]`** / **`!rps [rock/paper/scissors]`**\nPedra, papel e tesoura | Rock, paper, scissors\n\n" +
-                  "**`!8ball [pergunta]`** / **`!bola8 [pergunta]`**\nBola 8 mágica | Magic 8-ball oracle\n\n" +
-                  "**`!aleatorio [min] [max]`** / **`!random [min] [max]`**\nNúmero aleatório | Random number",
+            name="😄 Entretenimento Social",
+            value="**`!piada`** / **`!joke`** - Piadas aleatórias engraçadas\n**`!ship @user1 @user2`** / **`!amor @user1 @user2`** - Compatibilidade entre usuários\n**`!gay @usuário`** / **`!gayrate @usuário`** - Medidor gay divertido",
             inline=False
         )
         
         embed.add_field(
-            name="😄 Entretenimento | Entertainment",
-            value="**`!piada`** / **`!joke`**\nPiadas aleatórias | Random jokes\n\n" +
-                  "**`!curiosidade`** / **`!fact`**\nFatos interessantes | Interesting facts\n\n" +
-                  "**`!pergunta`** / **`!question`**\nPerguntas para reflexão | Thought-provoking questions\n\n" +
-                  "**`!escolher [opção1, opção2, ...]`** / **`!choose [option1, option2, ...]`**\nEscolhe uma opção | Choose an option\n\n" +
-                  "**`!love @usuário`**\nCalculadora do amor | Love calculator\n\n" +
-                  "**`!motivar`** / **`!motivate`**\nFrases motivacionais | Motivational quotes",
+            name="🎲 Utilidades Aleatórias",
+            value="**`!roleta [opção1, opção2, ...]`** / **`!roulette [option1, option2, ...]`** - Escolher entre opções\n**`!estatisticas`** / **`!stats`** - Ver estatísticas de uso dos comandos",
             inline=False
         )
         
         embed.add_field(
-            name="🎯 Exemplos de Uso | Usage Examples:",
-            value="**PT**: `!dado 20`, `!8ball Vou passar na prova?`, `!escolher pizza, hambúrguer, sushi`\n" +
-                  "**EN**: `!dice 20`, `!8ball Will I pass the exam?`, `!choose pizza, burger, sushi`",
+            name="🎯 Exemplos de Uso:",
+            value="**PT**: `!8ball Vou passar na prova?`, `!ship @João @Maria`, `!roleta pizza, hambúrguer, sushi`\n**EN**: `!8ball Will I pass the exam?`, `!ship @John @Mary`, `!roulette pizza, burger, sushi`",
             inline=False
         )
         
         embed.add_field(
-            name="🌐 Recursos Especiais | Special Features:",
-            value="• **Bilíngue**: Comandos funcionam em PT e EN | Commands work in PT and EN\n" +
-                  "• **APIs**: JokeAPI, FactAPI para conteúdo dinâmico | Dynamic content\n" +
-                  "• **Personalização**: Configuração por servidor | Per-server settings\n" +
-                  "• **Interativo**: Alguns comandos precisam menções/parâmetros | Interactive commands",
+            name="🌐 Recursos Especiais:",
+            value="• **Bilíngue**: Comandos funcionam em PT e EN\n• **Interativo**: Comandos precisam menções/parâmetros\n• **Estatísticas**: Acompanhe uso dos comandos\n• **Personalização**: Configuração por servidor",
             inline=False
         )
         
-        embed.add_field(
-            name="💡 Dicas | Tips:",
-            value="**PT**: Use comandos em português para respostas em português\n**EN**: Use English commands for English responses\n• Configuração de idioma salva por servidor | Language settings saved per server\n• Todos os jogos são justos e aleatórios | All games are fair and random",
-            inline=False
-        )
-        
-        embed.set_footer(text="Divirta-se com jogos em dois idiomas! | Have fun with bilingual games!")
+        embed.set_footer(text="Divirta-se com jogos em dois idiomas!")
         await ctx.send(embed=embed)
 
 async def setup(bot):
