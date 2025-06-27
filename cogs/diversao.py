@@ -152,250 +152,281 @@ class FunCog(commands.Cog):
     @commands.command(name='verdade', aliases=['truth'])
     async def truth_command(self, ctx):
         """Truth or Dare - Truth questions / Verdade ou Desafio - Perguntas"""
-        lang = self.detect_language(ctx.message.content)
-        
-        question = random.choice(self.responses[lang]['truth_questions'])
-        
-        embed = discord.Embed(
-            title="🤔 Verdade / Truth" if lang == 'pt' else "🤔 Truth",
-            description=question,
-            color=discord.Color.blue(),
-            timestamp=datetime.utcnow()
-        )
-        embed.set_footer(text=f"Perguntado por / Asked by {ctx.author.display_name}", 
-                        icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
-        
-        await ctx.send(embed=embed)
-        await self.save_interaction(ctx.author.id, 'truth', {'question': question, 'language': lang})
+        try:
+            lang = self.detect_language(ctx.message.content)
+            
+            question = random.choice(self.responses[lang]['truth_questions'])
+            
+            embed = discord.Embed(
+                title="🤔 Verdade / Truth" if lang == 'pt' else "🤔 Truth",
+                description=question,
+                color=discord.Color.blue(),
+                timestamp=datetime.utcnow()
+            )
+            embed.set_footer(text=f"Perguntado por / Asked by {ctx.author.display_name}", 
+                            icon_url=ctx.author.display_avatar.url)
+            
+            await ctx.send(embed=embed)
+            await self.save_interaction(ctx.author.id, 'truth', {'question': question, 'language': lang})
+        except Exception as e:
+            await ctx.send("❌ Erro ao executar comando!")
+            print(f"Erro no comando verdade: {e}")
 
     @commands.command(name='desafio', aliases=['dare'])
     async def dare_command(self, ctx):
         """Truth or Dare - Dare challenges / Verdade ou Desafio - Desafios"""
-        lang = self.detect_language(ctx.message.content)
-        
-        challenge = random.choice(self.responses[lang]['dare_challenges'])
-        
-        embed = discord.Embed(
-            title="😈 Desafio / Dare" if lang == 'pt' else "😈 Dare",
-            description=challenge,
-            color=discord.Color.red(),
-            timestamp=datetime.utcnow()
-        )
-        embed.set_footer(text=f"Desafiado por / Dared by {ctx.author.display_name}", 
-                        icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
-        
-        await ctx.send(embed=embed)
-        await self.save_interaction(ctx.author.id, 'dare', {'challenge': challenge, 'language': lang})
+        try:
+            lang = self.detect_language(ctx.message.content)
+            
+            challenge = random.choice(self.responses[lang]['dare_challenges'])
+            
+            embed = discord.Embed(
+                title="😈 Desafio / Dare" if lang == 'pt' else "😈 Dare",
+                description=challenge,
+                color=discord.Color.red(),
+                timestamp=datetime.utcnow()
+            )
+            embed.set_footer(text=f"Desafiado por / Dared by {ctx.author.display_name}", 
+                            icon_url=ctx.author.display_avatar.url)
+            
+            await ctx.send(embed=embed)
+            await self.save_interaction(ctx.author.id, 'dare', {'challenge': challenge, 'language': lang})
+        except Exception as e:
+            await ctx.send("❌ Erro ao executar comando!")
+            print(f"Erro no comando desafio: {e}")
 
     @commands.command(name='8ball', aliases=['bola8', 'pergunta', 'ask'])
     async def eight_ball(self, ctx, *, question=None):
         """Magic 8-Ball / Bola Mágica 8"""
-        lang = self.detect_language(ctx.message.content + (question or ''))
-        
-        if not question:
-            error_msg = "Você precisa fazer uma pergunta!" if lang == 'pt' else "You need to ask a question!"
-            await ctx.send(error_msg)
-            return
-        
-        answer = random.choice(self.responses[lang]['8ball'])
-        
-        embed = discord.Embed(
-            title="🎱 Bola Mágica 8 / Magic 8-Ball" if lang == 'pt' else "🎱 Magic 8-Ball",
-            color=discord.Color.purple(),
-            timestamp=datetime.utcnow()
-        )
-        embed.add_field(name="Pergunta / Question" if lang == 'pt' else "Question", 
-                       value=question, inline=False)
-        embed.add_field(name="Resposta / Answer" if lang == 'pt' else "Answer", 
-                       value=f"🔮 {answer}", inline=False)
-        embed.set_footer(text=f"Perguntado por / Asked by {ctx.author.display_name}", 
-                        icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
-        
-        await ctx.send(embed=embed)
-        await self.save_interaction(ctx.author.id, '8ball', 
-                                  {'question': question, 'answer': answer, 'language': lang})
+        try:
+            lang = self.detect_language(ctx.message.content + (question or ''))
+            
+            if not question:
+                error_msg = "Você precisa fazer uma pergunta!" if lang == 'pt' else "You need to ask a question!"
+                await ctx.send(error_msg)
+                return
+            
+            answer = random.choice(self.responses[lang]['8ball'])
+            
+            embed = discord.Embed(
+                title="🎱 Bola Mágica 8 / Magic 8-Ball" if lang == 'pt' else "🎱 Magic 8-Ball",
+                color=discord.Color.purple(),
+                timestamp=datetime.utcnow()
+            )
+            embed.add_field(name="Pergunta / Question" if lang == 'pt' else "Question", 
+                           value=question, inline=False)
+            embed.add_field(name="Resposta / Answer" if lang == 'pt' else "Answer", 
+                           value=f"🔮 {answer}", inline=False)
+            embed.set_footer(text=f"Perguntado por / Asked by {ctx.author.display_name}", 
+                            icon_url=ctx.author.display_avatar.url)
+            
+            await ctx.send(embed=embed)
+            await self.save_interaction(ctx.author.id, '8ball', 
+                                      {'question': question, 'answer': answer, 'language': lang})
+        except Exception as e:
+            await ctx.send("❌ Erro ao executar comando!")
+            print(f"Erro no comando 8ball: {e}")
 
     @commands.command(name='piada', aliases=['joke'])
     async def joke_command(self, ctx):
         """Random jokes / Piadas aleatórias"""
-        lang = self.detect_language(ctx.message.content)
-        
-        joke = random.choice(self.responses[lang]['jokes'])
-        
-        embed = discord.Embed(
-            title="😂 Piada / Joke" if lang == 'pt' else "😂 Joke",
-            description=joke,
-            color=discord.Color.gold(),
-            timestamp=datetime.utcnow()
-        )
-        embed.set_footer(text=f"Solicitado por / Requested by {ctx.author.display_name}", 
-                        icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
-        
-        await ctx.send(embed=embed)
-        await self.save_interaction(ctx.author.id, 'joke', {'joke': joke, 'language': lang})
+        try:
+            lang = self.detect_language(ctx.message.content)
+            
+            joke = random.choice(self.responses[lang]['jokes'])
+            
+            embed = discord.Embed(
+                title="😂 Piada / Joke" if lang == 'pt' else "😂 Joke",
+                description=joke,
+                color=discord.Color.gold(),
+                timestamp=datetime.utcnow()
+            )
+            embed.set_footer(text=f"Solicitado por / Requested by {ctx.author.display_name}", 
+                            icon_url=ctx.author.display_avatar.url)
+            
+            await ctx.send(embed=embed)
+            await self.save_interaction(ctx.author.id, 'joke', {'joke': joke, 'language': lang})
+        except Exception as e:
+            await ctx.send("❌ Erro ao executar comando!")
+            print(f"Erro no comando piada: {e}")
 
     @commands.command(name='ship', aliases=['amor', 'love'])
     async def ship_command(self, ctx, user1: discord.Member = None, user2: discord.Member = None):
         """Ship two users / Shippar dois usuários"""
-        lang = self.detect_language(ctx.message.content)
-        
-        if not user1:
-            user1 = ctx.author
-        if not user2:
-            error_msg = "Mencione alguém para shippar!" if lang == 'pt' else "Mention someone to ship!"
-            await ctx.send(error_msg)
-            return
-        
-        # Calculate ship percentage based on user IDs (consistent results)
-        combined_id = str(user1.id) + str(user2.id)
-        percentage = (hash(combined_id) % 101)
-        
-        if percentage < 0:
-            percentage = abs(percentage)
-        
-        # Ship name
-        ship_name = user1.display_name[:len(user1.display_name)//2] + user2.display_name[len(user2.display_name)//2:]
-        
-        # Reaction based on percentage
-        if percentage >= 90:
-            reaction = "💕 Amor verdadeiro!" if lang == 'pt' else "💕 True love!"
-            color = discord.Color.pink()
-        elif percentage >= 70:
-            reaction = "💖 Muito compatíveis!" if lang == 'pt' else "💖 Very compatible!"
-            color = discord.Color.red()
-        elif percentage >= 50:
-            reaction = "💙 Podem dar certo!" if lang == 'pt' else "💙 Could work out!"
-            color = discord.Color.blue()
-        elif percentage >= 30:
-            reaction = "💛 Apenas amigos!" if lang == 'pt' else "💛 Just friends!"
-            color = discord.Color.gold()
-        else:
-            reaction = "💔 Não combina..." if lang == 'pt' else "💔 Not compatible..."
-            color = discord.Color.darker_grey()
-        
-        embed = discord.Embed(
-            title=f"💕 Ship: {ship_name}",
-            color=color,
-            timestamp=datetime.utcnow()
-        )
-        embed.add_field(name="👫 Casal / Couple" if lang == 'pt' else "👫 Couple", 
-                       value=f"{user1.mention} ❤️ {user2.mention}", inline=False)
-        embed.add_field(name="📊 Compatibilidade / Compatibility" if lang == 'pt' else "📊 Compatibility", 
-                       value=f"{percentage}%", inline=True)
-        embed.add_field(name="💭 Resultado / Result" if lang == 'pt' else "💭 Result", 
-                       value=reaction, inline=True)
-        
-        # Progress bar
-        filled = int(percentage / 10)
-        bar = "█" * filled + "░" * (10 - filled)
-        embed.add_field(name="📈 Medidor / Meter" if lang == 'pt' else "📈 Meter", 
-                       value=f"`{bar}` {percentage}%", inline=False)
-        
-        embed.set_footer(text=f"Shippado por / Shipped by {ctx.author.display_name}", 
-                        icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
-        
-        await ctx.send(embed=embed)
-        await self.save_interaction(ctx.author.id, 'ship', 
-                                  {'user1': user1.id, 'user2': user2.id, 'percentage': percentage, 'language': lang})
+        try:
+            lang = self.detect_language(ctx.message.content)
+            
+            if not user1:
+                user1 = ctx.author
+            if not user2:
+                error_msg = "Mencione alguém para shippar!" if lang == 'pt' else "Mention someone to ship!"
+                await ctx.send(error_msg)
+                return
+            
+            # Verificar se é a mesma pessoa
+            if user1.id == user2.id:
+                selfship_msg = "💕 Amor próprio é importante!" if lang == 'pt' else "💕 Self-love is important!"
+                await ctx.send(selfship_msg)
+                return
+            
+            # Calculate ship percentage based on user IDs (consistent results)
+            combined_id = str(user1.id) + str(user2.id)
+            percentage = abs(hash(combined_id) % 101)
+            
+            # Ship name
+            ship_name = user1.display_name[:len(user1.display_name)//2] + user2.display_name[len(user2.display_name)//2:]
+            
+            # Reaction based on percentage
+            if percentage >= 90:
+                reaction = "💕 Amor verdadeiro!" if lang == 'pt' else "💕 True love!"
+                color = discord.Color.pink()
+            elif percentage >= 70:
+                reaction = "💖 Muito compatíveis!" if lang == 'pt' else "💖 Very compatible!"
+                color = discord.Color.red()
+            elif percentage >= 50:
+                reaction = "💙 Podem dar certo!" if lang == 'pt' else "💙 Could work out!"
+                color = discord.Color.blue()
+            elif percentage >= 30:
+                reaction = "💛 Apenas amigos!" if lang == 'pt' else "💛 Just friends!"
+                color = discord.Color.gold()
+            else:
+                reaction = "💔 Não combina..." if lang == 'pt' else "💔 Not compatible..."
+                color = discord.Color.darker_grey()
+            
+            embed = discord.Embed(
+                title=f"💕 Ship: {ship_name}",
+                color=color,
+                timestamp=datetime.utcnow()
+            )
+            embed.add_field(name="👫 Casal / Couple" if lang == 'pt' else "👫 Couple", 
+                           value=f"{user1.mention} ❤️ {user2.mention}", inline=False)
+            embed.add_field(name="📊 Compatibilidade / Compatibility" if lang == 'pt' else "📊 Compatibility", 
+                           value=f"{percentage}%", inline=True)
+            embed.add_field(name="💭 Resultado / Result" if lang == 'pt' else "💭 Result", 
+                           value=reaction, inline=True)
+            
+            # Progress bar
+            filled = int(percentage / 10)
+            bar = "█" * filled + "░" * (10 - filled)
+            embed.add_field(name="📈 Medidor / Meter" if lang == 'pt' else "📈 Meter", 
+                           value=f"`{bar}` {percentage}%", inline=False)
+            
+            embed.set_footer(text=f"Shippado por / Shipped by {ctx.author.display_name}", 
+                            icon_url=ctx.author.display_avatar.url)
+            
+            await ctx.send(embed=embed)
+            await self.save_interaction(ctx.author.id, 'ship', 
+                                      {'user1': user1.id, 'user2': user2.id, 'percentage': percentage, 'language': lang})
+        except Exception as e:
+            await ctx.send("❌ Erro ao executar comando!")
+            print(f"Erro no comando ship: {e}")
 
     @commands.command(name='gay', aliases=['gayrate'])
     async def gay_rate(self, ctx, user: discord.Member = None):
         """Gay rate meter / Medidor gay"""
-        lang = self.detect_language(ctx.message.content)
-        
-        if not user:
-            user = ctx.author
-        
-        # Calculate percentage based on user ID (consistent results)
-        percentage = abs(hash(str(user.id)) % 101)
-        
-        # Reactions based on percentage
-        if percentage >= 90:
-            reaction = "🏳️‍🌈 Super gay!" if lang == 'en' else "🏳️‍🌈 Super gay!"
-        elif percentage >= 70:
-            reaction = "🌈 Muito gay!" if lang == 'pt' else "🌈 Very gay!"
-        elif percentage >= 50:
-            reaction = "💖 Meio gay!" if lang == 'pt' else "💖 Kinda gay!"
-        elif percentage >= 30:
-            reaction = "💙 Um pouco gay!" if lang == 'pt' else "💙 A little gay!"
-        else:
-            reaction = "💔 Não gay!" if lang == 'pt' else "💔 Not gay!"
-        
-        embed = discord.Embed(
-            title="🏳️‍🌈 Medidor Gay / Gay Meter" if lang == 'pt' else "🏳️‍🌈 Gay Meter",
-            color=discord.Color.from_rgb(255, 105, 180),
-            timestamp=datetime.utcnow()
-        )
-        embed.add_field(name="👤 Usuário / User" if lang == 'pt' else "👤 User", 
-                       value=user.mention, inline=True)
-        embed.add_field(name="📊 Taxa Gay / Gay Rate" if lang == 'pt' else "📊 Gay Rate", 
-                       value=f"{percentage}%", inline=True)
-        embed.add_field(name="💭 Resultado / Result" if lang == 'pt' else "💭 Result", 
-                       value=reaction, inline=False)
-        
-        # Progress bar
-        filled = int(percentage / 10)
-        bar = "🌈" * filled + "⬜" * (10 - filled)
-        embed.add_field(name="📈 Medidor / Meter" if lang == 'pt' else "📈 Meter", 
-                       value=f"`{bar}` {percentage}%", inline=False)
-        
-        embed.set_footer(text=f"Testado por / Tested by {ctx.author.display_name}", 
-                        icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
-        
-        await ctx.send(embed=embed)
-        await self.save_interaction(ctx.author.id, 'gay', 
-                                  {'user': user.id, 'percentage': percentage, 'language': lang})
+        try:
+            lang = self.detect_language(ctx.message.content)
+            
+            if not user:
+                user = ctx.author
+            
+            # Calculate percentage based on user ID (consistent results)
+            percentage = abs(hash(str(user.id)) % 101)
+            
+            # Reactions based on percentage
+            if percentage >= 90:
+                reaction = "🏳️‍🌈 Super gay!" if lang == 'en' else "🏳️‍🌈 Super gay!"
+            elif percentage >= 70:
+                reaction = "🌈 Muito gay!" if lang == 'pt' else "🌈 Very gay!"
+            elif percentage >= 50:
+                reaction = "💖 Meio gay!" if lang == 'pt' else "💖 Kinda gay!"
+            elif percentage >= 30:
+                reaction = "💙 Um pouco gay!" if lang == 'pt' else "💙 A little gay!"
+            else:
+                reaction = "💔 Não gay!" if lang == 'pt' else "💔 Not gay!"
+            
+            embed = discord.Embed(
+                title="🏳️‍🌈 Medidor Gay / Gay Meter" if lang == 'pt' else "🏳️‍🌈 Gay Meter",
+                color=discord.Color.from_rgb(255, 105, 180),
+                timestamp=datetime.utcnow()
+            )
+            embed.add_field(name="👤 Usuário / User" if lang == 'pt' else "👤 User", 
+                           value=user.mention, inline=True)
+            embed.add_field(name="📊 Taxa Gay / Gay Rate" if lang == 'pt' else "📊 Gay Rate", 
+                           value=f"{percentage}%", inline=True)
+            embed.add_field(name="💭 Resultado / Result" if lang == 'pt' else "💭 Result", 
+                           value=reaction, inline=False)
+            
+            # Progress bar
+            filled = int(percentage / 10)
+            bar = "🌈" * filled + "⬜" * (10 - filled)
+            embed.add_field(name="📈 Medidor / Meter" if lang == 'pt' else "📈 Meter", 
+                           value=f"`{bar}` {percentage}%", inline=False)
+            
+            embed.set_footer(text=f"Testado por / Tested by {ctx.author.display_name}", 
+                            icon_url=ctx.author.display_avatar.url)
+            
+            await ctx.send(embed=embed)
+            await self.save_interaction(ctx.author.id, 'gay', 
+                                      {'user': user.id, 'percentage': percentage, 'language': lang})
+        except Exception as e:
+            await ctx.send("❌ Erro ao executar comando!")
+            print(f"Erro no comando gay: {e}")
 
     @commands.command(name='roleta', aliases=['roulette', 'escolher', 'choose'])
     async def roulette_command(self, ctx, *, options=None):
         """Choose randomly from options / Escolher aleatoriamente entre opções"""
-        lang = self.detect_language(ctx.message.content + (options or ''))
-        
-        if not options:
-            error_msg = "Digite as opções separadas por vírgula! Ex: `!roleta pizza, hambúrguer, sushi`" if lang == 'pt' else "Enter options separated by commas! Ex: `!roulette pizza, burger, sushi`"
-            await ctx.send(error_msg)
-            return
-        
-        choices = [choice.strip() for choice in options.split(',')]
-        if len(choices) < 2:
-            error_msg = "Você precisa de pelo menos 2 opções!" if lang == 'pt' else "You need at least 2 options!"
-            await ctx.send(error_msg)
-            return
-        
-        chosen = random.choice(choices)
-        
-        embed = discord.Embed(
-            title="🎰 Roleta da Sorte / Lucky Roulette" if lang == 'pt' else "🎰 Lucky Roulette",
-            color=discord.Color.green(),
-            timestamp=datetime.utcnow()
-        )
-        
-        embed.add_field(name="🎯 Opções / Options" if lang == 'pt' else "🎯 Options", 
-                       value=", ".join(f"`{choice}`" for choice in choices), inline=False)
-        embed.add_field(name="🏆 Escolhido / Chosen" if lang == 'pt' else "🏆 Chosen", 
-                       value=f"**{chosen}**", inline=False)
-        
-        embed.set_footer(text=f"Solicitado por / Requested by {ctx.author.display_name}", 
-                        icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
-        
-        # Add spinning animation
-        message = await ctx.send("🎰 Girando a roleta..." if lang == 'pt' else "🎰 Spinning the roulette...")
-        await asyncio.sleep(2)
-        await message.edit(content="", embed=embed)
-        
-        await self.save_interaction(ctx.author.id, 'roulette', 
-                                  {'options': choices, 'chosen': chosen, 'language': lang})
+        try:
+            lang = self.detect_language(ctx.message.content + (options or ''))
+            
+            if not options:
+                error_msg = "Digite as opções separadas por vírgula! Ex: `!roleta pizza, hambúrguer, sushi`" if lang == 'pt' else "Enter options separated by commas! Ex: `!roulette pizza, burger, sushi`"
+                await ctx.send(error_msg)
+                return
+            
+            choices = [choice.strip() for choice in options.split(',')]
+            if len(choices) < 2:
+                error_msg = "Você precisa de pelo menos 2 opções!" if lang == 'pt' else "You need at least 2 options!"
+                await ctx.send(error_msg)
+                return
+            
+            chosen = random.choice(choices)
+            
+            embed = discord.Embed(
+                title="🎰 Roleta da Sorte / Lucky Roulette" if lang == 'pt' else "🎰 Lucky Roulette",
+                color=discord.Color.green(),
+                timestamp=datetime.utcnow()
+            )
+            
+            embed.add_field(name="🎯 Opções / Options" if lang == 'pt' else "🎯 Options", 
+                           value=", ".join(f"`{choice}`" for choice in choices), inline=False)
+            embed.add_field(name="🏆 Escolhido / Chosen" if lang == 'pt' else "🏆 Chosen", 
+                           value=f"**{chosen}**", inline=False)
+            
+            embed.set_footer(text=f"Solicitado por / Requested by {ctx.author.display_name}", 
+                            icon_url=ctx.author.display_avatar.url)
+            
+            # Add spinning animation
+            message = await ctx.send("🎰 Girando a roleta..." if lang == 'pt' else "🎰 Spinning the roulette...")
+            await asyncio.sleep(2)
+            await message.edit(content="", embed=embed)
+            
+            await self.save_interaction(ctx.author.id, 'roulette', 
+                                      {'options': choices, 'chosen': chosen, 'language': lang})
+        except Exception as e:
+            await ctx.send("❌ Erro ao executar comando!")
+            print(f"Erro no comando roleta: {e}")
 
     @commands.command(name='estatisticas', aliases=['stats', 'funstats'])
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def fun_stats(self, ctx, user: discord.Member = None):
         """Show fun command statistics / Mostrar estatísticas dos comandos de diversão"""
-        lang = self.detect_language(ctx.message.content)
-        
-        if not user:
-            user = ctx.author
-        
         try:
+            lang = self.detect_language(ctx.message.content)
+            
+            if not user:
+                user = ctx.author
+            
             # Get user statistics from database
             stats = await self.fun_collection.find({'user_id': user.id}).to_list(length=None)
             
@@ -436,9 +467,9 @@ class FunCog(commands.Cog):
                 embed.add_field(name="🎮 Detalhes / Details" if lang == 'pt' else "🎮 Details", 
                                value=commands_text, inline=False)
             
-            embed.set_thumbnail(url=user.avatar.url if user.avatar else None)
+            embed.set_thumbnail(url=user.display_avatar.url)
             embed.set_footer(text=f"Solicitado por / Requested by {ctx.author.display_name}", 
-                            icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
+                            icon_url=ctx.author.display_avatar.url)
             
             await ctx.send(embed=embed)
             
@@ -457,14 +488,7 @@ class FunCog(commands.Cog):
             cooldown_msg = f"⏰ Aguarde {remaining} segundos antes de usar este comando novamente!" if lang == 'pt' else f"⏰ Wait {remaining} seconds before using this command again!"
             await ctx.send(cooldown_msg, delete_after=10)
 
-# Setup function for the cog
 async def setup(bot):
     """Setup function to add the cog to the bot"""
     await bot.add_cog(FunCog(bot))
-    print("✅ Fun Cog loaded successfully!")
-
-# Alternative setup for older discord.py versions
-def setup(bot):
-    """Synchronous setup function for older discord.py versions"""
-    bot.add_cog(FunCog(bot))
     print("✅ Fun Cog loaded successfully!")
